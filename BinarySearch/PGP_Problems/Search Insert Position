@@ -21,17 +21,12 @@ The given array 'arr' is: [1, 2, 4, 7] and m = 9. We insert m = 9 in the array a
 ////////////// Intuition ///////////////////
 Binary search narrows the range where m could exist.
 Every step either moves start right or end left.
-
 When the loop ends, it means
 👉 start has crossed end (start > end) —
 i.e., no exact match found.
-
 At that point:
-
 end points to the last smaller element.
-
 start points to the first larger or equal element.
-
 Therefore, start is exactly where m should be inserted
 (either at the beginning, in the middle, or at the end).
 
