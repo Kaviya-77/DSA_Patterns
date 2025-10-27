@@ -1,0 +1,21 @@
+class Solution {
+    public int binarysearch(int[] arr, int k) {
+        int start=0;
+        int end=arr.length-1;
+        int result=-1;
+        while(start<=end){
+            int mid=start+(end-start)/2;
+            if(arr[mid]==k){ //binary search normally return any index value that matches the target so we need to find small 
+                result=mid; //for finding smaller index ,first strore the
+                end=mid-1; // index then search for left side to getting smaller 
+            }
+            else if(arr[mid]<k){
+                start=mid+1;
+            }
+            else{
+                end=mid-1;
+            }
+        }
+        return result;
+    }
+}
