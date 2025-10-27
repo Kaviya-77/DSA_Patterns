@@ -16,6 +16,8 @@ Sample Output 1:
 4
 Explanation of Input 1:
 The given array 'arr' is: [1, 2, 4, 7] and m = 9. We insert m = 9 in the array and get 'arr' as: [1, 2, 4, 7, 9]. The position of 9 is 4 (according to 0-based indexing).***/
+
+
 ////////////// Intuition ///////////////////
 Binary search narrows the range where m could exist.
 Every step either moves start right or end left.
@@ -37,6 +39,9 @@ Therefore, start is exactly where m should be inserted
 ✅ If m is larger than all → start = arr.length
 ✅ If m fits between elements → start points right spot.
 //////////////////////////////////////////////////////
+
+
+
 public class Solution {
     public static int searchInsert(int [] arr, int m){
         int start=0;
