@@ -1,0 +1,58 @@
+/****There is an integer array nums sorted in ascending order (with distinct values).
+Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.You must write an algorithm with O(log n) runtime complexity.
+Example 1:
+Input: nums = [4,5,6,7,0,1,2], target = 0
+Output: 4
+Example 2:
+Input: nums = [4,5,6,7,0,1,2], target = 3
+Output: -1 ***/
+
+
+
+////////////Intution/////////////
+Intuition Steps for Rotated Sorted Array Search
+Compute mid = start + (end - start) / 2.
+If nums[mid] == target → return mid.
+If nums[start] <= nums[mid] → left half sorted.
+If target in [nums[start], nums[mid]) → move end = mid - 1.
+Else → move start = mid + 1.
+Else → right half sorted.
+If target in (nums[mid], nums[end]] → move start = mid + 1.
+Else → move end = mid - 1.
+Repeat until start > end, else return -1.
+“Find sorted half → check if target lies inside → narrow search.”
+///////////////////////////////////
+
+
+
+class Solution {
+    public int search(int[] nums, int target) {
+        int start=0;
+        int end=nums.length-1;
+        while(start<=end){
+            int mid=start+(end-start)/2;
+            if(nums[mid]==target){
+                return mid;
+            }
+            else if(nums[start]<=nums[mid]){  //left is sorted
+                if(nums[start]<=target && target<nums[mid]){
+                      end=mid-1;
+                   }
+                    else{
+                        start=mid+1;
+                    }
+                }
+                else{  //rigth is sorted
+                    if(nums[mid] < target && target <= nums[end]){
+                        ///right side
+                         start=mid+1;
+                    }
+                    else{
+                        end=mid-1;
+                    }
+                }
+            }
+        
+        return -1;
+    }
+}
