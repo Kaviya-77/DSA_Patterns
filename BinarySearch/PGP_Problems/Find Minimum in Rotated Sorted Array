@@ -1,0 +1,55 @@
+/******Suppose an array of length n sorted in ascending order is rotated between 1 and n times. For example, the array nums = [0,1,4,4,5,6,7] might become:Given the sorted rotated array nums that may contain duplicates, return the minimum element of this array.
+You must decrease the overall operation steps as much as possible.
+Example 1:
+Input: nums = [1,3,5]
+Output: 1
+Example 2:
+Input: nums = [2,2,2,0,1]
+Output: 0
+
+Array: [2,2,2,0,1,2]
+Start: 0, end: 5
+mid=2 → nums[start]=2, nums[mid]=2, nums[end]=2 → all equal → shrink: start=1, end=4.
+start=1, end=4, mid=2 → nums[mid]=2, nums[end]=1. 2 > 1 → min is right → start = mid + 1 = 3.
+start=3, end=4, mid=3 → nums[mid]=0, nums[end]=1. 0 <= 1 → end = 3.
+start == end == 3 → nums[3] = 0 is the min.
+When duplicates hide ordering, the start++/end-- step resolves ambiguity gradually without losing the minimum.*******/
+
+
+
+///////////////////////Intution////////////////////
+
+Compute mid = start + (end - start)/2.
+If nums[start] == nums[mid] && nums[mid] == nums[end], we can’t tell which side is sorted → shrink both ends: start++, end--. (Safe because we still keep the minimum inside.)
+Else compare nums[mid] with nums[end]:
+If nums[mid] > nums[end] → the right half (mid+1 .. end) is unsorted and contains the minimum → move right: start = mid + 1.
+Else (nums[mid] <= nums[end]) → the right half is sorted, so the minimum is in the left half including mid → move left: end = mid.
+Loop condition: while (start < end). After the loop start == end and nums[start] is the minimum
+
+///////////////////////////////////////////////////
+
+
+
+class Solution {
+    public int findMin(int[] nums) {
+       int start=0;
+       int end=nums.length-1;
+       while(start<end){
+          int mid=start+(end-start)/2;
+          //Handle duplicates
+          if(nums[start]==nums[mid] && nums[mid]==nums[end]){
+            start++;
+            end--;
+            continue;
+          }
+          if(nums[end]<nums[mid]){
+              //rigth side is unsorted so min lies here
+              start=mid+1;
+          }
+          else{
+              end=mid;
+          }
+       }
+       return nums[start]; 
+    }
+}
