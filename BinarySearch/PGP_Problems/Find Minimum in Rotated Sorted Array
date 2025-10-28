@@ -44,10 +44,10 @@ class Solution {
           }
           if(nums[end]<nums[mid]){
               //rigth side is unsorted so min lies here
-              start=mid+1;
+              start=mid+1;     ////start=mid (for max)
           }
           else{
-              end=mid;
+              end=mid;     ////end=mid-1 (for max)
           }
        }
        return nums[start]; 
