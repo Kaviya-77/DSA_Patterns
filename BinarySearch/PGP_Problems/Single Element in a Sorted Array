@@ -6,3 +6,41 @@ Input: nums = [1,1,2,3,3,4,4,8,8]
 Output: 2
 
 /////////Intution///////////////
+1️⃣ Pairs come in even-odd order before the single element:
+(even, odd), (even, odd) ✅
+2️⃣ After the single element, pairs shift:
+(odd, even), (odd, even) ❌ (pattern broken)
+3️⃣ Use mid index parity to detect where the pattern breaks:
+mid even → should match mid+1
+mid odd → should match mid-1
+4️⃣ If mismatch → single is on the left including mid,
+otherwise single is on the right → move boundaries accordingly.
+📌 Finally, when start == end, that index is the single element ✅
+//////////////////////////////////
+
+class Solution {
+    public int singleNonDuplicate(int[] nums) {
+        int start=0;
+        int end=nums.length-1;
+        while(start<end){
+            int mid=start+(end-start)/2;
+            if(mid%2==0){ ///mid is even
+              if(nums[mid]==nums[mid+1]){ // pattern not breaks so unique lies on right side
+                start=mid+1;
+              }
+              else{ 
+                end=mid; ///if pattern breaks only unique present in the left side
+              }
+            }
+            else { //mid is odd
+               if(nums[mid]==nums[mid-1]){ //pattern not breaks so unique lies on rigth side only
+                  start=mid+1;
+               }
+               else{
+                  end=mid;
+               }
+            }
+       }
+        return nums[start];
+    }
+}
