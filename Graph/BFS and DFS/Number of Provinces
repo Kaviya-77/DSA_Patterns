@@ -1,1 +1,65 @@
+Number of Provinces
+There are n cities. Some of them are connected, while some are not. If city a is connected directly with city b, and city b is connected directly with city c, then city a is connected indirectly with city c.
+A province is a group of directly or indirectly connected cities and no other cities outside of the group.
+You are given an n x n matrix isConnected where isConnected[i][j] = 1 if the ith city and the jth city are directly connected, and isConnected[i][j] = 0 otherwise.
+Return the total number of provinces.
+
+Example 1:
+Input: isConnected = [[1,1,0],[1,1,0],[0,0,1]]
+Output: 2
+
+class Solution {
+    public int findCircleNum(int[][] isConnected) {
+        int V=isConnected.length;
+        //build the Adjacency List
+        ArrayList<ArrayList<Integer>> adj=new ArrayList<>();
+        for(int i=0;i<V;i++){
+            adj.add(new ArrayList<>());
+        }
+        for(int i=0;i<V;i++){
+            for(int j=0;j<V;j++){
+            if(isConnected[i][j]==1 && i!=j){
+                adj.get(i).add(j);
+                adj.get(j).add(i);
+            }
+          }
+        }
+
+        int count=0;
+        boolean[] visited=new boolean[V+1]; //may be node start with 1 So V+1
+        for(int i=0;i<V;i++){
+            if(!visited[i]){
+               // bfs(visited,adj,i);
+               dfs(visited,adj,i);
+                count++;
+            }
+        }
+
+        return count;
+
+    }
+    public static void bfs(boolean[] visited,ArrayList<ArrayList<Integer>> adj,int node){
+        visited[node]=true;
+        Queue<Integer> q=new LinkedList<Integer>();
+        q.add(node);
+        while(!q.isEmpty()){
+            int val=q.poll();
+            for(int n:adj.get(val)){
+                if(!visited[n]){
+                    visited[n]=true;
+                    q.add(n);
+                }
+            }
+        }
+    }
+
+    public static void dfs(boolean[] visited,ArrayList<ArrayList<Integer>> adj,int node){
+        visited[node]=true;
+        for(int n:adj.get(node)){
+            if(!visited[n]){
+                dfs(visited,adj,n);
+            }
+        }
+    }
+}
 
