@@ -1,0 +1,60 @@
+Rotting Oranges
+You are given an m x n grid where each cell can have one of three values:
+0 representing an empty cell,
+1 representing a fresh orange, or
+2 representing a rotten orange.
+Every minute, any fresh orange that is 4-directionally adjacent to a rotten orange becomes rotten.Return the minimum number of minutes that must elapse until no cell has a fresh orange. If this is impossible, return -1.
+
+Example 1:
+Input: grid = [[2,1,1],[1,1,0],[0,1,1]]
+Output: 4
+
+class Solution {
+    public int orangesRotting(int[][] grid) {
+        int row=grid.length;
+        int col=grid[0].length;
+
+        Queue<int[]> q=new LinkedList<>();
+        int freshOranges=0;
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                if(grid[i][j]==2){
+                    q.add(new int[]{i,j});
+                }
+                if(grid[i][j]==1){
+                    freshOranges++;
+                }
+            }
+        }
+        if(freshOranges==0){
+            return 0;
+        }
+
+        int[][] dir=new int[][]{{0,-1},{0,1},{-1,0},{1,0}};
+        int minutes=0;         
+        //Queue contains rottan Oranges , So do bfs for queue finding neighbour make it as rottan
+        while(!q.isEmpty()){
+            int size=q.size();
+            boolean changed=false;
+
+            for(int i=0;i<size;i++){   // first loop the queue get one by one rottan 
+                int[] curr=q.poll();
+                int x=curr[0];
+                int y=curr[1]; // get the single rottan 
+                   
+                for(int d[]:dir){ //loop for every element neightbour to make as rottan
+                   int nx=x+d[0];
+                   int ny=y+d[1]; //get every directions step by step
+                   if(nx>=0 && nx<row && ny>=0 && ny<col && grid[nx][ny]==1){ //need to be inside boundary and fresh
+                      grid[nx][ny]=2;
+                      q.add(new int[]{nx,ny});
+                      freshOranges--;
+                      changed=true;
+                   }
+                }
+            }
+             if(changed)minutes++;
+        }
+        return freshOranges==0?minutes:-1;
+    }
+}
