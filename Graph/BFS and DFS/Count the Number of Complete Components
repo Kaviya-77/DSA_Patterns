@@ -20,7 +20,6 @@ Nodes are counted when visiting new nodes
 
 
 
-
 class Solution {
     public int countCompleteComponents(int n, int[][] edges) {
         ArrayList<ArrayList<Integer>> adj=new ArrayList<>();
@@ -45,7 +44,8 @@ class Solution {
         for(int i=0;i<n;i++){
             if(!visited[i]){
                  int[] edgeAndNode=new int[2]; //0-->no of edges, 1-->no of node
-                dfs(visited,i,adj,edgeAndNode);
+                //dfs(visited,i,adj,edgeAndNode);
+                bfs(visited,adj,edgeAndNode,i);
                 edgeAndNode[0]/=2; //edge got divided by 2 because counted 2 times
                 edgeAndNode[1]++;  // node increased by 1 because only neighbours counted in the dfs so for the current node it get increased by 1
                 //edge=node*(node-1)/2
@@ -69,6 +69,22 @@ class Solution {
                 temp[1]++;
                 visited[i]=true;
                 dfs(visited,i,adj,temp);
+            }
+        }
+    }
+    public static void bfs(boolean visited[],ArrayList<ArrayList<Integer>> adj,int temp[],int node){
+        Queue<Integer> q=new LinkedList<>();
+        q.add(node);
+        visited[node]=true;
+        while(!q.isEmpty()){
+            int val=q.poll();
+            for(int n:adj.get(val)){
+                temp[0]++;
+                if(!visited[n]){
+                    temp[1]++;
+                    q.add(n);
+                    visited[n]=true;
+                }
             }
         }
     }
